@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cozy Garden Shop</title>
+  <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="ui">
+      <div id="top-bar">
+        <div id="coins">0 <span class="icon">🪙</span></div>
+        <div id="day-counter">Day <span id="day-num">1</span></div>
+      </div>
+
+      <div id="seed-panel">
+        <div class="panel-title">Seeds</div>
+        <div id="seed-list"></div>
+      </div>
+
+      <div id="order-panel" class="hidden">
+        <div class="panel-title">Customer Order</div>
+        <div id="order-content"></div>
+        <button id="fulfill-btn" class="hidden">Sell</button>
+      </div>
+
+      <div id="tooltip" class="hidden"></div>
+
+      <div id="hint">Click a garden bed to plant • Click plant to water/harvest</div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
