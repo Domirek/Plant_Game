@@ -5,6 +5,8 @@ import { getScene } from './scene.js'
 const loader = new GLTFLoader()
 const scene = getScene
 
+const MODELS_DIR = '/assets/house/Assets/gltf/'
+
 const GARDEN_POSITIONS = [
   { x: -2.5, z: -1.5 },
   { x: 0, z: -1.5 },
@@ -16,30 +18,82 @@ const GARDEN_POSITIONS = [
 
 let gardenBeds = []
 let environmentLoaded = false
+let placedDecor = []
+
+const DECOR_POSITIONS = [
+  { x: -4.5, z: -3 },
+  { x: 4.5, z: -3 },
+  { x: -4.5, z: 3 },
+  { x: 4.5, z: 3 },
+  { x: -4.5, z: 0 },
+  { x: 4.5, z: 0 },
+  { x: 0, z: -4.5 },
+  { x: 0, z: 4.5 },
+  { x: -2.5, z: -4.5 },
+  { x: 2.5, z: -4.5 },
+  { x: -2.5, z: 4.5 },
+  { x: 2.5, z: 4.5 },
+]
+
+const FOREST_OBJECTS = [
+  // Large trees around the perimeter
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: -8.5, z: -5, scale: 0.6 },
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: -10, z: 0, scale: 0.65 },
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 8.5, z: -5, scale: 0.6 },
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 10, z: 0, scale: 0.65 },
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: -7, z: 7, scale: 0.55 },
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 7, z: 7, scale: 0.55 },
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 0, z: -12, scale: 0.7 },
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: -6, z: -11, scale: 0.6 },
+  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 6, z: -11, scale: 0.6 },
+  // Smaller trees
+  { path: '/assets/house/Assets/gltf/tree.gltf', x: -6, z: -4, scale: 0.6 },
+  { path: '/assets/house/Assets/gltf/tree.gltf', x: 6, z: -4, scale: 0.6 },
+  { path: '/assets/house/Assets/gltf/tree.gltf', x: -9, z: 4, scale: 0.55 },
+  { path: '/assets/house/Assets/gltf/tree.gltf', x: 9, z: 4, scale: 0.55 },
+  { path: '/assets/house/Assets/gltf/tree.gltf', x: -3, z: 8.5, scale: 0.5 },
+  { path: '/assets/house/Assets/gltf/tree.gltf', x: 3, z: 8.5, scale: 0.5 },
+  { path: '/assets/house/Assets/gltf/tree.gltf', x: -8.5, z: -9, scale: 0.55 },
+  { path: '/assets/house/Assets/gltf/tree.gltf', x: 8.5, z: -9, scale: 0.55 },
+  // Foliage bushes
+  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: -7.5, z: -2, scale: 0.5 },
+  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: 7.5, z: -2, scale: 0.5 },
+  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: -4, z: -10, scale: 0.45 },
+  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: 4, z: -10, scale: 0.45 },
+  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: -2, z: 7, scale: 0.4 },
+  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: 2, z: 7, scale: 0.4 },
+  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: -8, z: 6, scale: 0.45 },
+  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: 8, z: 6, scale: 0.45 },
+  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: -9, z: -7.5, scale: 0.5 },
+  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: 9, z: -7.5, scale: 0.5 },
+  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: -5, z: 9, scale: 0.45 },
+  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: 5, z: 9, scale: 0.45 },
+  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: -11, z: -3, scale: 0.5 },
+  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: 11, z: -3, scale: 0.5 },
+]
 
 export function loadEnvironment() {
   return new Promise((resolve) => {
     const s = scene()
     
-    // flag to track when all models are loaded
-    const totalModels = 4
+    const totalModels = 4 + FOREST_OBJECTS.length
     let loaded = 0
     const onLoaded = () => { loaded++; if (loaded >= totalModels) { environmentLoaded = true; resolve() } }
 
     // House
     loader.load('/assets/house/Assets/gltf/house.gltf', (gltf) => {
       const house = gltf.scene
-      house.position.set(0, 0, -4.5)
+      house.position.set(0, 0, -8)
       house.scale.set(0.8, 0.8, 0.8)
       house.traverse(c => { c.castShadow = true; c.receiveShadow = true })
       s.add(house)
       onLoaded()
     })
 
-    // Tree large
+    // Tree large (front yard)
     loader.load('/assets/house/Assets/gltf/tree_large.gltf', (gltf) => {
       const tree = gltf.scene
-      tree.position.set(5, 0, -3)
+      tree.position.set(5, 0, -6)
       tree.scale.set(0.7, 0.7, 0.7)
       tree.traverse(c => { c.castShadow = true; c.receiveShadow = true })
       s.add(tree)
@@ -49,7 +103,7 @@ export function loadEnvironment() {
     // Mailbox
     loader.load('/assets/house/Assets/gltf/mailbox.gltf', (gltf) => {
       const mb = gltf.scene
-      mb.position.set(3.5, 0, -4)
+      mb.position.set(3.5, 0, -7)
       mb.scale.set(0.6, 0.6, 0.6)
       mb.traverse(c => { c.castShadow = true; c.receiveShadow = true })
       s.add(mb)
@@ -59,12 +113,26 @@ export function loadEnvironment() {
     // Bench
     loader.load('/assets/house/Assets/gltf/bench_A.gltf', (gltf) => {
       const bench = gltf.scene
-      bench.position.set(-3.5, 0, -4)
+      bench.position.set(-3.5, 0, -7)
       bench.scale.set(0.6, 0.6, 0.6)
       bench.traverse(c => { c.castShadow = true; c.receiveShadow = true })
       s.add(bench)
       onLoaded()
     })
+
+    // Forest border
+    for (const obj of FOREST_OBJECTS) {
+      loader.load(obj.path, (gltf) => {
+        const model = gltf.scene
+        model.position.set(obj.x, 0, obj.z)
+        model.scale.set(obj.scale, obj.scale, obj.scale)
+        const angle = Math.random() * Math.PI * 2
+        model.rotation.y = angle
+        model.traverse(c => { c.castShadow = true; c.receiveShadow = true })
+        s.add(model)
+        onLoaded()
+      })
+    }
 
     // Garden beds
     createGardenBeds()
@@ -139,3 +207,69 @@ export function getGardenBedAt(position) {
 }
 
 export function isEnvironmentLoaded() { return environmentLoaded }
+
+const decorModelCache = new Map()
+
+export function placeDecor(item) {
+  const s = scene()
+  const freeIndex = DECOR_POSITIONS.findIndex((_, i) => !placedDecor.some(d => d.index === i))
+  if (freeIndex === -1) return null
+
+  const pos = DECOR_POSITIONS[freeIndex]
+  const group = new THREE.Group()
+  group.position.set(pos.x, 0, pos.z)
+  group.userData.isDecor = true
+  group.userData.decorIndex = freeIndex
+  s.add(group)
+
+  // Placeholder while model loads
+  const placeholder = new THREE.Mesh(
+    new THREE.SphereGeometry(0.15, 8, 8),
+    new THREE.MeshStandardMaterial({ color: 0x7ba05b, emissive: 0x3a6a1a, emissiveIntensity: 0.3 })
+  )
+  placeholder.position.y = 0.15
+  group.add(placeholder)
+
+  loader.load(item.path, (gltf) => {
+    group.remove(placeholder)
+    const mesh = gltf.scene
+    mesh.scale.set(item.scale, item.scale, item.scale)
+    mesh.position.y = 0
+    const angle = Math.random() * Math.PI * 2
+    mesh.rotation.y = angle
+    mesh.traverse(c => { c.castShadow = true; c.receiveShadow = true })
+    group.add(mesh)
+  }, undefined, (err) => {
+    console.error('Failed to load decor:', item.path, err)
+  })
+
+  const entry = { index: freeIndex, group, itemId: item.id }
+  placedDecor.push(entry)
+  return entry
+}
+
+export function removeDecor(index) {
+  const entry = placedDecor.find(d => d.index === index)
+  if (!entry) return false
+  const s = scene()
+  s.remove(entry.group)
+  placedDecor = placedDecor.filter(d => d.index !== index)
+  return true
+}
+
+export function getPlacedDecor() { return placedDecor }
+
+export function getDecorAtPosition(position) {
+  const eps = 0.8
+  for (const decor of placedDecor) {
+    const pos = DECOR_POSITIONS[decor.index]
+    const dx = pos.x - position.x
+    const dz = pos.z - position.z
+    if (Math.abs(dx) < eps && Math.abs(dz) < eps) return decor
+  }
+  return null
+}
+
+export function getDecorPosition(index) {
+  return DECOR_POSITIONS[index]
+}

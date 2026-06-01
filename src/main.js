@@ -1,8 +1,9 @@
-import { initScene, getScene, getRenderer, getControls } from './scene.js'
-import { loadEnvironment, isEnvironmentLoaded } from './environment.js'
+import { initScene } from './scene.js'
+import { loadEnvironment } from './environment.js'
 import { setupInteraction } from './interactions.js'
-import { updateUI } from './ui.js'
+import { updateUI, setupUI } from './ui.js'
 import { updateGame } from './game.js'
+import { loadCat, updateCat } from './cat.js'
 
 const canvas = document.getElementById('game-canvas')
 const { scene, camera, renderer, controls } = initScene(canvas)
@@ -11,10 +12,10 @@ setupInteraction(canvas)
 
 let envReady = false
 
-// Load environment then show UI
 loadEnvironment().then(() => {
   envReady = true
-  updateUI()
+  setupUI()
+  loadCat()
 })
 
 let lastTime = 0
@@ -27,6 +28,8 @@ function gameLoop(time) {
 
   if (envReady) {
     updateGame(delta)
+    updateCat(delta)
+    updateUI()
   }
 
   controls.update()
