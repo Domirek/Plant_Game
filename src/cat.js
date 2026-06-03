@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js'
 import { getScene } from './scene.js'
+import { asset } from './paths.js'
 
 const loader = new FBXLoader()
 let cat = null
@@ -20,7 +21,7 @@ const MEOW_DURATION = 1
 
 export function loadCat() {
   return new Promise((resolve) => {
-    loader.load('/assets/cat/cat.fbx', (fbx) => {
+    loader.load(asset('/assets/cat/cat.fbx'), (fbx) => {
       cat = fbx
       cat.scale.set(0.0027, 0.0027, 0.0027)
       cat.position.set(4, 0, 3)
@@ -30,6 +31,9 @@ export function loadCat() {
       })
       getScene().add(cat)
       pickNewTarget()
+      resolve()
+    }, undefined, (err) => {
+      console.warn('Failed to load cat model:', err)
       resolve()
     })
   })

@@ -1,11 +1,12 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { getScene } from './scene.js'
+import { asset } from './paths.js'
 
 const loader = new GLTFLoader()
 const scene = getScene
 
-const MODELS_DIR = '/assets/house/Assets/gltf/'
+const MODELS_DIR = asset('/assets/house/Assets/gltf/')
 
 const GARDEN_POSITIONS = [
   { x: -2.5, z: -1.5 },
@@ -35,90 +36,95 @@ const DECOR_POSITIONS = [
   { x: 2.5, z: 4.5 },
 ]
 
+const p = (file) => asset('/assets/house/Assets/gltf/' + file)
 const FOREST_OBJECTS = [
   // Large trees around the perimeter
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: -8.5, z: -5, scale: 0.6 },
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: -10, z: 0, scale: 0.65 },
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 8.5, z: -5, scale: 0.6 },
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 10, z: 0, scale: 0.65 },
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: -7, z: 7, scale: 0.55 },
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 7, z: 7, scale: 0.55 },
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 0, z: -12, scale: 0.7 },
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: -6, z: -11, scale: 0.6 },
-  { path: '/assets/house/Assets/gltf/tree_large.gltf', x: 6, z: -11, scale: 0.6 },
+  { path: p('tree_large.gltf'), x: -8.5, z: -5, scale: 0.6 },
+  { path: p('tree_large.gltf'), x: -10, z: 0, scale: 0.65 },
+  { path: p('tree_large.gltf'), x: 8.5, z: -5, scale: 0.6 },
+  { path: p('tree_large.gltf'), x: 10, z: 0, scale: 0.65 },
+  { path: p('tree_large.gltf'), x: -7, z: 7, scale: 0.55 },
+  { path: p('tree_large.gltf'), x: 7, z: 7, scale: 0.55 },
+  { path: p('tree_large.gltf'), x: 0, z: -12, scale: 0.7 },
+  { path: p('tree_large.gltf'), x: -6, z: -11, scale: 0.6 },
+  { path: p('tree_large.gltf'), x: 6, z: -11, scale: 0.6 },
   // Smaller trees
-  { path: '/assets/house/Assets/gltf/tree.gltf', x: -6, z: -4, scale: 0.6 },
-  { path: '/assets/house/Assets/gltf/tree.gltf', x: 6, z: -4, scale: 0.6 },
-  { path: '/assets/house/Assets/gltf/tree.gltf', x: -9, z: 4, scale: 0.55 },
-  { path: '/assets/house/Assets/gltf/tree.gltf', x: 9, z: 4, scale: 0.55 },
-  { path: '/assets/house/Assets/gltf/tree.gltf', x: -3, z: 8.5, scale: 0.5 },
-  { path: '/assets/house/Assets/gltf/tree.gltf', x: 3, z: 8.5, scale: 0.5 },
-  { path: '/assets/house/Assets/gltf/tree.gltf', x: -8.5, z: -9, scale: 0.55 },
-  { path: '/assets/house/Assets/gltf/tree.gltf', x: 8.5, z: -9, scale: 0.55 },
+  { path: p('tree.gltf'), x: -6, z: -4, scale: 0.6 },
+  { path: p('tree.gltf'), x: 6, z: -4, scale: 0.6 },
+  { path: p('tree.gltf'), x: -9, z: 4, scale: 0.55 },
+  { path: p('tree.gltf'), x: 9, z: 4, scale: 0.55 },
+  { path: p('tree.gltf'), x: -3, z: 8.5, scale: 0.5 },
+  { path: p('tree.gltf'), x: 3, z: 8.5, scale: 0.5 },
+  { path: p('tree.gltf'), x: -8.5, z: -9, scale: 0.55 },
+  { path: p('tree.gltf'), x: 8.5, z: -9, scale: 0.55 },
   // Foliage bushes
-  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: -7.5, z: -2, scale: 0.5 },
-  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: 7.5, z: -2, scale: 0.5 },
-  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: -4, z: -10, scale: 0.45 },
-  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: 4, z: -10, scale: 0.45 },
-  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: -2, z: 7, scale: 0.4 },
-  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: 2, z: 7, scale: 0.4 },
-  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: -8, z: 6, scale: 0.45 },
-  { path: '/assets/house/Assets/gltf/foliage_A.gltf', x: 8, z: 6, scale: 0.45 },
-  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: -9, z: -7.5, scale: 0.5 },
-  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: 9, z: -7.5, scale: 0.5 },
-  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: -5, z: 9, scale: 0.45 },
-  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: 5, z: 9, scale: 0.45 },
-  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: -11, z: -3, scale: 0.5 },
-  { path: '/assets/house/Assets/gltf/foliage_B.gltf', x: 11, z: -3, scale: 0.5 },
+  { path: p('foliage_A.gltf'), x: -7.5, z: -2, scale: 0.5 },
+  { path: p('foliage_A.gltf'), x: 7.5, z: -2, scale: 0.5 },
+  { path: p('foliage_A.gltf'), x: -4, z: -10, scale: 0.45 },
+  { path: p('foliage_A.gltf'), x: 4, z: -10, scale: 0.45 },
+  { path: p('foliage_A.gltf'), x: -2, z: 7, scale: 0.4 },
+  { path: p('foliage_A.gltf'), x: 2, z: 7, scale: 0.4 },
+  { path: p('foliage_A.gltf'), x: -8, z: 6, scale: 0.45 },
+  { path: p('foliage_A.gltf'), x: 8, z: 6, scale: 0.45 },
+  { path: p('foliage_B.gltf'), x: -9, z: -7.5, scale: 0.5 },
+  { path: p('foliage_B.gltf'), x: 9, z: -7.5, scale: 0.5 },
+  { path: p('foliage_B.gltf'), x: -5, z: 9, scale: 0.45 },
+  { path: p('foliage_B.gltf'), x: 5, z: 9, scale: 0.45 },
+  { path: p('foliage_B.gltf'), x: -11, z: -3, scale: 0.5 },
+  { path: p('foliage_B.gltf'), x: 11, z: -3, scale: 0.5 },
 ]
 
 export function loadEnvironment() {
   return new Promise((resolve) => {
     const s = scene()
-    
+
     const totalModels = 4 + FOREST_OBJECTS.length
     let loaded = 0
     const onLoaded = () => { loaded++; if (loaded >= totalModels) { environmentLoaded = true; resolve() } }
+    const onError = (path) => (err) => {
+      console.warn('Failed to load model:', path, err)
+      onLoaded()
+    }
 
     // House
-    loader.load('/assets/house/Assets/gltf/house.gltf', (gltf) => {
+    loader.load(asset('/assets/house/Assets/gltf/house.gltf'), (gltf) => {
       const house = gltf.scene
       house.position.set(0, 0, -8)
       house.scale.set(0.8, 0.8, 0.8)
       house.traverse(c => { c.castShadow = true; c.receiveShadow = true })
       s.add(house)
       onLoaded()
-    })
+    }, undefined, onError('/assets/house/Assets/gltf/house.gltf'))
 
     // Tree large (front yard)
-    loader.load('/assets/house/Assets/gltf/tree_large.gltf', (gltf) => {
+    loader.load(asset('/assets/house/Assets/gltf/tree_large.gltf'), (gltf) => {
       const tree = gltf.scene
       tree.position.set(5, 0, -6)
       tree.scale.set(0.7, 0.7, 0.7)
       tree.traverse(c => { c.castShadow = true; c.receiveShadow = true })
       s.add(tree)
       onLoaded()
-    })
+    }, undefined, onError('/assets/house/Assets/gltf/tree_large.gltf'))
 
     // Mailbox
-    loader.load('/assets/house/Assets/gltf/mailbox.gltf', (gltf) => {
+    loader.load(asset('/assets/house/Assets/gltf/mailbox.gltf'), (gltf) => {
       const mb = gltf.scene
       mb.position.set(3.5, 0, -7)
       mb.scale.set(0.6, 0.6, 0.6)
       mb.traverse(c => { c.castShadow = true; c.receiveShadow = true })
       s.add(mb)
       onLoaded()
-    })
+    }, undefined, onError('/assets/house/Assets/gltf/mailbox.gltf'))
 
     // Bench
-    loader.load('/assets/house/Assets/gltf/bench_A.gltf', (gltf) => {
+    loader.load(asset('/assets/house/Assets/gltf/bench_A.gltf'), (gltf) => {
       const bench = gltf.scene
       bench.position.set(-3.5, 0, -7)
       bench.scale.set(0.6, 0.6, 0.6)
       bench.traverse(c => { c.castShadow = true; c.receiveShadow = true })
       s.add(bench)
       onLoaded()
-    })
+    }, undefined, onError('/assets/house/Assets/gltf/bench_A.gltf'))
 
     // Forest border
     for (const obj of FOREST_OBJECTS) {
@@ -131,11 +137,20 @@ export function loadEnvironment() {
         model.traverse(c => { c.castShadow = true; c.receiveShadow = true })
         s.add(model)
         onLoaded()
-      })
+      }, undefined, onError(obj.path))
     }
 
     // Garden beds
     createGardenBeds()
+
+    // Safety timeout: resolve after 15s even if some models fail
+    setTimeout(() => {
+      if (!environmentLoaded) {
+        console.warn('Environment load timeout — resolving with partial models')
+        environmentLoaded = true
+        resolve()
+      }
+    }, 15000)
   })
 }
 

@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { getScene } from './scene.js'
+import { asset } from './paths.js'
 
 const loader = new GLTFLoader()
 
@@ -12,31 +13,32 @@ export const PLANT_TYPES = [
   { id: 'pothos', name: 'Pothos' },
 ]
 
+const a = (path) => asset('/assets/plants/Assets/gltf/' + path)
 const growthModels = {
   cactus: {
-    small: '/assets/plants/Assets/gltf/cactus_A.gltf',
-    medium: '/assets/plants/Assets/gltf/cactus_C.gltf',
-    large: '/assets/plants/Assets/gltf/cacti_plant_pot_large.gltf',
+    small: a('cactus_A.gltf'),
+    medium: a('cactus_C.gltf'),
+    large: a('cacti_plant_pot_large.gltf'),
   },
   monstera: {
-    small: '/assets/plants/Assets/gltf/monstera_plant_small.gltf',
-    medium: '/assets/plants/Assets/gltf/monstera_plant_medium.gltf',
-    large: '/assets/plants/Assets/gltf/monstera_plant_large.gltf',
+    small: a('monstera_plant_small.gltf'),
+    medium: a('monstera_plant_medium.gltf'),
+    large: a('monstera_plant_large.gltf'),
   },
   succulent: {
-    small: '/assets/plants/Assets/gltf/succulent_A.gltf',
-    medium: '/assets/plants/Assets/gltf/succulent_C.gltf',
-    large: '/assets/plants/Assets/gltf/succulent_plant_pot_large.gltf',
+    small: a('succulent_A.gltf'),
+    medium: a('succulent_C.gltf'),
+    large: a('succulent_plant_pot_large.gltf'),
   },
   sansevieria: {
-    small: '/assets/plants/Assets/gltf/sansevieria_plant_small.gltf',
-    medium: '/assets/plants/Assets/gltf/sansevieria_plant_medium.gltf',
-    large: '/assets/plants/Assets/gltf/sansevieria_plant_large.gltf',
+    small: a('sansevieria_plant_small.gltf'),
+    medium: a('sansevieria_plant_medium.gltf'),
+    large: a('sansevieria_plant_large.gltf'),
   },
   pothos: {
-    small: '/assets/plants/Assets/gltf/pothos_plant_small.gltf',
-    medium: '/assets/plants/Assets/gltf/pothos_plant_medium.gltf',
-    large: '/assets/plants/Assets/gltf/pothos_plant_large.gltf',
+    small: a('pothos_plant_small.gltf'),
+    medium: a('pothos_plant_medium.gltf'),
+    large: a('pothos_plant_large.gltf'),
   },
 }
 

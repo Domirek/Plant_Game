@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# Plant_Game
-Practice work vibecode game
-=======
 # Focus Garden 🌱
 
 A cozy 3D productivity game where you grow plants while you focus, and decorate your garden with items from the shop. Built with **Three.js** and **Vite**.
@@ -82,4 +78,3 @@ The shop sells 22 decor items from 3 themed sets:
 | Pleasant Picnic | Cooler, Radio, Picnic Basket, Grapes Bowl | 15–30 🪙 |
 
 Each item is a GLTF 3D model placed at a fixed position around the garden beds.
->>>>>>> 1d5900e (Beta version)
